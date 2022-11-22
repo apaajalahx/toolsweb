@@ -14,9 +14,9 @@ def smtp_check(host, port, username, password, email_to, email_from):
                 emailfrom = 'noreply@market-inbox.com'
         m.add_header('from', emailfrom)
         m.add_header('to', email_to)
-        m.add_header('subject', 'Market Inbox Test SMTP')
+        m.add_header('subject', 'Smtp Email Sent Market Inbox')
         m.add_header('X-Priority', '1')
-        m.set_payload('THIS JUST TEST! SMTP SEND THIS SMTP GOOD FOR YOU !')
+        m.set_payload('Email Received')
         if port == 465:
             context = ssl.create_default_context()
             server = smtp.SMTP_SSL(host, port, context=context)
