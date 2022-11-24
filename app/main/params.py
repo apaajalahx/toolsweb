@@ -10,3 +10,14 @@ smtp_args = {
     "email_to" : fields.String(required=True, validate=validate.Email()),
     "email_from" : fields.String(missing=None, validate=validate.Email())
 }
+
+sendinblue_send_args = {
+    "apikey" : fields.String(required=True, validate=validate.Length(min=30)),
+    "sender" : fields.String(required=True),
+    "content" : fields.String(required=True),
+    "recipient" : fields.Integer(required=True) 
+}
+
+sendinblue_check_args = {
+    "apikey" : fields.String(required=True)
+}

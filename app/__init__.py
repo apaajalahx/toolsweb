@@ -8,7 +8,7 @@ def create_app():
     app = Flask(__name__)
     cors.init_app(app)
     app.json_encoder = JSONEncoder
-    from app.smtp.views import smtp
-    app.register_blueprint(smtp)
+    from app.main.views import main
+    app.register_blueprint(main)
     
     return app
