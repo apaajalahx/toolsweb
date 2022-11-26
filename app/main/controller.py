@@ -8,7 +8,7 @@ from random import randint
 
 def smtp_check(host, port, username, password, email_to, email_from):
     try:
-        random_number = randint(100000,99999)
+        random_number = randint(100000,999999)
         m = message.Message()
         emailfrom = email_from
         if email_from is None:
