@@ -4,9 +4,11 @@ import ssl
 from email import message
 import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
+from random import randint
 
 def smtp_check(host, port, username, password, email_to, email_from):
     try:
+        random_number = randint(100000,99999)
         m = message.Message()
         emailfrom = email_from
         if email_from is None:
@@ -16,9 +18,9 @@ def smtp_check(host, port, username, password, email_to, email_from):
                 emailfrom = 'noreply@market-inbox.com'
         m.add_header('from', emailfrom)
         m.add_header('to', email_to)
-        m.add_header('subject', 'Smtp Email Sent Market Inbox')
+        m.add_header('subject', 'Smtp Email Sent Market Inbox {}'.format(str(random_number)))
         m.add_header('X-Priority', '1')
-        m.set_payload('Email Received')
+        m.set_payload('Email Received From {}'.format(str(random_number)))
         if port == 465:
             context = ssl.create_default_context()
             server = smtp.SMTP_SSL(host, port, context=context)
@@ -30,7 +32,7 @@ def smtp_check(host, port, username, password, email_to, email_from):
         server.login(username, password)
         server.sendmail(emailfrom, email_to, m.as_string())
         server.quit()
-        return { 'error' : False, 'messages' : 'succes send mail!' }
+        return { 'error' : False, 'messages' : 'succes send mail!', 'data' : { 'number' : random_number } }
     except SMTPAuthenticationError:
         return { 'error' : True, 'messages' : 'SMTP Authentication Error' }
     except SMTPConnectError:
@@ -39,7 +41,7 @@ def smtp_check(host, port, username, password, email_to, email_from):
         return { 'error' : True, 'messages' : 'SMTP Server Disconnected' }
     except SMTPRecipientsRefused:
         return { 'error' : True, 'messages' : 'Recipients Refused' }
-    except:
+    except Exception as e:
         return { 'error' : True, 'messages' : 'Unkown Error' }
 
 def sendinblue_send(apikey, sender, content, recipient):
